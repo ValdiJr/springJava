@@ -1,4 +1,4 @@
-package org.casadocodigo.conf;
+package org.bookstore.conf;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
