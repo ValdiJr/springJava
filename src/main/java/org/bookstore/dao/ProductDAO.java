@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 public class ProductDAO {
 
 	@PersistenceContext
-
 	private EntityManager manager;
 
 	public void save(Product product) {
