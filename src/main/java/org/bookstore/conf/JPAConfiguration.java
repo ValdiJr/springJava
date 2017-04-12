@@ -3,19 +3,25 @@ package org.bookstore.conf;
 import java.util.Properties;
 
 import javax.activation.DataSource;
+import javax.persistence.EntityManagerFactory;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@EnableTransactionManagement
 public class JPAConfiguration {
+	
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource((javax.sql.DataSource) dataSource());
-		em.setPackagesToScan(new String[] { "br.com.casadocodigo.loja.models" });
+		em.setDataSource(dataSource());
+		em.setPackagesToScan(new String[] { "org.bookstore.models" });
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
 		em.setJpaProperties(additionalProperties());
@@ -23,16 +29,28 @@ public class JPAConfiguration {
 	}
 
 @Bean
-public DataSource dataSource(){
+public javax.sql.DataSource dataSource(){
 DriverManagerDataSource dataSource =
 new DriverManagerDataSource();
 dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 dataSource.setUrl(
-"jdbc:mysql://localhost:3306/casadocodigo");
+"jdbc:mysql://localhost:3306/bookstore");
 dataSource.setUsername( "root" );
 dataSource.setPassword( "" );
-return (DataSource) dataSource;
+return dataSource;
 }
+
+
+@Bean
+public PlatformTransactionManager transactionManager
+	(EntityManagerFactory emf){
+	JpaTransactionManager transactionManager = 
+			new JpaTransactionManager();
+	transactionManager.setEntityManagerFactory(emf);
+		return transactionManager;
+	
+}
+
 
 private Properties additionalProperties() {
 Properties properties = new Properties();
