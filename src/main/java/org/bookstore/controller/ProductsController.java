@@ -8,13 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@Transactional
 public class ProductsController {
 
 	@Autowired
 	private ProductDAO productDAO;
 
 	@RequestMapping("/produtos/form")
-	@Transactional
 	public String form() {
 		return "products/form";
 	}
