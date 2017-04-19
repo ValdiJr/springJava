@@ -1,5 +1,9 @@
 package org.bookstore.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +12,10 @@ import javax.persistence.Lob;
 
 @Entity
 public class Product {
+	
+	@ElementCollection
+	
+	private List<Price> prices = new ArrayList<Price>();
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
