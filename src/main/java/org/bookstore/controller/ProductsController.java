@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -24,11 +25,20 @@ public class ProductsController {
 	modelAndView.addObject("types", BookType.values());
 	return modelAndView;
 	}
-	@RequestMapping("/produtos")
+	@RequestMapping(value="/produtos", method=RequestMethod.POST)
 	public String save(Product product) {
 		System.out.println("Cadastrando o produto " + product);
 		productDAO.save(product);
-		return "products/ok";
+		return "products";
 	}
+	@RequestMapping(value="/produtos", method=RequestMethod.GET)
+	public ModelAndView list(){
+	ModelAndView modelAndView =
+	new ModelAndView("products/list");
+	modelAndView.addObject("products", productDAO.list());
+	System.out.println(productDAO.list());
+	return modelAndView;
+	}
+
 
 }
