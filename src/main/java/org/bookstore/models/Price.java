@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
 public class Price {
 	@Column (scale =2)
 	private BigDecimal value;
-	private BookType booktype;
+	private BookType bookType;
 	
 	public enum BookType {
 		EBOOK,PRINTED,COMBO;
@@ -28,5 +28,5 @@ public class Price {
 	public void setBookType(BookType bookType) {
 		this.bookType = bookType;
 	}
-	private BookType bookType;
+	
 } 
