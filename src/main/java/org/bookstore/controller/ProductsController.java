@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @Transactional
+@RequestMapping("/produtos")
+
 public class ProductsController {
 
 	@Autowired
@@ -25,18 +27,17 @@ public class ProductsController {
 	modelAndView.addObject("types", BookType.values());
 	return modelAndView;
 	}
-	@RequestMapping(value="/produtos", method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST)
 	public String save(Product product) {
 		System.out.println("Cadastrando o produto " + product);
 		productDAO.save(product);
-		return "products";
+		return "products/list";
 	}
-	@RequestMapping(value="/produtos", method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView list(){
 	ModelAndView modelAndView =
 	new ModelAndView("products/list");
 	modelAndView.addObject("products", productDAO.list());
-	System.out.println(productDAO.list());
 	return modelAndView;
 	}
 
