@@ -1,11 +1,17 @@
 package org.bookstore.controller;
 
+import javax.validation.Valid;
+
 import org.bookstore.dao.ProductDAO;
 import org.bookstore.models.Price.BookType;
 import org.bookstore.models.Product;
+import org.bookstore.utils.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,7 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/produtos")
 
 public class ProductsController {
-
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+	binder.setValidator(new ProductValidator());
+	}
 	@Autowired
 	private ProductDAO productDAO;
 
@@ -29,7 +38,7 @@ public class ProductsController {
 	return modelAndView;
 	}
 	@RequestMapping(method=RequestMethod.POST)
-	public String save(Product product,RedirectAttributes redirectAttributes) {
+	public String save(@Valid Product product,RedirectAttributes redirectAttributes) {
 		System.out.println("Cadastrando o produto " + product);
 		redirectAttributes.addFlashAttribute("sucesso",
 				"Produto cadastrado com sucesso");
