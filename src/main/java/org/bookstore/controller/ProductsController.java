@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Transactional
@@ -28,10 +29,12 @@ public class ProductsController {
 	return modelAndView;
 	}
 	@RequestMapping(method=RequestMethod.POST)
-	public String save(Product product) {
+	public String save(Product product,RedirectAttributes redirectAttributes) {
 		System.out.println("Cadastrando o produto " + product);
+		redirectAttributes.addFlashAttribute("sucesso",
+				"Produto cadastrado com sucesso");
 		productDAO.save(product);
-		return "products/list";
+		return "redirect:produtos";
 	}
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView list(){
